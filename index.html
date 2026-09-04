@@ -1,1012 +1,146 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SOSO | Explore Colorado</title>
-
-  <!-- Leaflet map -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
-
-  <style>
-    /* =========================
-       SOSO COLORADO
-       COLOR + TYPE SYSTEM
-       ========================= */
-
-    :root {
-      --forest: #19382d;
-      --mountain-blue: #203a4a;
-      --evergreen: #486557;
-      --faded-blue: #718a95;
-      --paper: #f4f0e6;
-      --cream: #faf8f1;
-      --ink: #292d2b;
-      --rust: #b76645;
-      --line: #cbc6b9;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin-top: 0;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* =========================
-       NAV
-       ========================= */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      background: rgba(244, 240, 230, 0.96);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(10px);
-    }
-
-    .nav {
-      max-width: 1180px;
-      margin: auto;
-      padding: 18px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .brand {
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      font-size: 1.25rem;
-      text-decoration: none;
-      color: var(--forest);
-    }
-
-    .brand span {
-      display: block;
-      font-size: 0.58rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      color: var(--evergreen);
-      margin-top: -3px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      font-size: 0.92rem;
-      font-weight: 600;
-    }
-
-    .nav-links a:hover {
-      color: var(--rust);
-    }
-
-    /* =========================
-       GENERAL
-       ========================= */
-
-    section {
-      padding: 90px 24px;
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: auto;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.73rem;
-      font-weight: 800;
-      color: var(--rust);
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(3rem, 8vw, 6.8rem);
-      line-height: 0.95;
-      font-weight: 500;
-      letter-spacing: -0.04em;
-    }
-
-    h2 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2.2rem, 5vw, 4.2rem);
-      line-height: 1;
-      font-weight: 500;
-      letter-spacing: -0.03em;
-    }
-
-    h3 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.65rem;
-      font-weight: 500;
-    }
-
-    .button {
-      display: inline-block;
-      background: var(--forest);
-      color: white;
-      padding: 14px 22px;
-      border-radius: 2px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.9rem;
-      border: 1px solid var(--forest);
-      transition: 0.2s ease;
-      cursor: pointer;
-    }
-
-    .button:hover {
-      background: var(--mountain-blue);
-      border-color: var(--mountain-blue);
-    }
-
-    .button.secondary {
-      background: transparent;
-      color: var(--forest);
-    }
-
-    .button.secondary:hover {
-      background: var(--forest);
-      color: white;
-    }
-
-    /* =========================
-       HERO
-       ========================= */
-
-    .hero {
-      min-height: 82vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      background:
-        radial-gradient(
-          circle at 85% 20%,
-          rgba(113, 138, 149, 0.3),
-          transparent 30%
-        ),
-        var(--paper);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      align-items: end;
-      gap: 60px;
-    }
-
-    .hero-copy p {
-      max-width: 610px;
-      font-size: 1.15rem;
-      margin-bottom: 30px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .hero-note {
-      border-left: 1px solid var(--forest);
-      padding: 10px 0 10px 28px;
-      align-self: center;
-      max-width: 330px;
-    }
-
-    .hero-note p {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.3rem;
-      color: var(--mountain-blue);
-      margin-bottom: 10px;
-    }
-
-    .hero-note small {
-      color: var(--evergreen);
-    }
-
-    /* =========================
-       EXPLORE
-       ========================= */
-
-    .explore {
-      background: var(--cream);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .section-heading {
-      max-width: 700px;
-      margin-bottom: 42px;
-    }
-
-    .filters {
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
-      margin-bottom: 35px;
-    }
-
-    .filter {
-      border: 1px solid var(--evergreen);
-      background: transparent;
-      color: var(--forest);
-      padding: 9px 14px;
-      cursor: pointer;
-      border-radius: 999px;
-      font-weight: 600;
-    }
-
-    .filter.active,
-    .filter:hover {
-      background: var(--forest);
-      color: white;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      overflow: hidden;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-    }
-
-    .card-image {
-      height: 230px;
-      background:
-        linear-gradient(rgba(32, 58, 74, 0.08), rgba(32, 58, 74, 0.15)),
-        linear-gradient(135deg, var(--faded-blue), var(--forest));
-      display: flex;
-      align-items: flex-end;
-      padding: 16px;
-      color: white;
-    }
-
-    .photo-placeholder {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      opacity: 0.85;
-    }
-
-    .card-content {
-      padding: 24px;
-    }
-
-    .tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-    }
-
-    .tag {
-      border: 1px solid var(--line);
-      padding: 4px 8px;
-      text-transform: uppercase;
-      font-size: 0.64rem;
-      letter-spacing: 0.08em;
-      font-weight: 700;
-      color: var(--evergreen);
-    }
-
-    .stats {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      font-size: 0.8rem;
-      color: var(--evergreen);
-      border-top: 1px solid var(--line);
-      padding-top: 15px;
-      margin-top: 18px;
-    }
-
-    /* =========================
-       MAP
-       ========================= */
-
-    .map-section {
-      background: var(--mountain-blue);
-      color: var(--cream);
-    }
-
-    .map-section .eyebrow {
-      color: #d6a081;
-    }
-
-    .map-intro {
-      display: grid;
-      grid-template-columns: 0.65fr 1.35fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    #map {
-      height: 570px;
-      width: 100%;
-      border: 8px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .map-copy p {
-      color: #d9e1e1;
-      max-width: 400px;
-    }
-
-    /* =========================
-       HERMAN GULCH
-       ========================= */
-
-    .field-note-grid {
-      display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
-      gap: 70px;
-    }
-
-    .field-note-details {
-      border-top: 1px solid var(--line);
-    }
-
-    .detail {
-      display: flex;
-      justify-content: space-between;
-      gap: 25px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .detail span:first-child {
-      font-weight: 700;
-      color: var(--evergreen);
-    }
-
-    .journal-note {
-      margin-top: 35px;
-      border-left: 3px solid var(--rust);
-      padding-left: 22px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.15rem;
-    }
-
-    /* =========================
-       COMMUNITY
-       ========================= */
-
-    .community {
-      background: var(--forest);
-      color: white;
-    }
-
-    .community-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 70px;
-    }
-
-    .community p {
-      color: #dde5df;
-    }
-
-    .community-cards {
-      display: grid;
-      gap: 14px;
-    }
-
-    .community-card {
-      padding: 20px;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .community-card h3 {
-      margin-bottom: 4px;
-      font-size: 1.25rem;
-    }
-
-    /* =========================
-       ABOUT / FOOTER
-       ========================= */
-
-    .about-copy {
-      max-width: 780px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.35rem;
-    }
-
-    footer {
-      background: #10261f;
-      color: #d5dfda;
-      padding: 40px 24px;
-    }
-
-    .footer-inner {
-      max-width: 1180px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
-      flex-wrap: wrap;
-      font-size: 0.82rem;
-    }
-
-    /* =========================
-       MOBILE
-       ========================= */
-
-    @media (max-width: 800px) {
-      .hero-grid,
-      .map-intro,
-      .field-note-grid,
-      .community-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .nav {
-        align-items: flex-start;
-      }
-
-      .nav-links {
-        gap: 12px;
-        justify-content: flex-end;
-      }
-
-      .nav-links a {
-        font-size: 0.75rem;
-      }
-
-      section {
-        padding: 65px 20px;
-      }
-
-      .hero {
-        min-height: auto;
-      }
-
-      .hero-grid {
-        gap: 40px;
-      }
-
-      .map-intro {
-        gap: 30px;
-      }
-
-      #map {
-        height: 450px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
-
 <body>
+<header>
+  <nav class="nav">
+    <a class="brand" href="{{ '/' | relative_url }}">SOSO<span>COLORADO</span></a>
+    <div class="nav-links">
+      <a href="#explore">Explore</a><a href="#map-section">Map</a><a href="#community">Community</a><a href="#about">About</a>
+    </div>
+  </nav>
+</header>
 
-  <!-- =========================
-       NAVIGATION
-       ========================= -->
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">A field guide to Colorado</p>
+    <h1>Know where<br>you live.</h1>
+    <p>A growing collection of trails, parks, gathering places, local adventures and ways to connect with the places and communities that make Colorado home.</p>
+    <a class="button" href="#explore">Explore places</a>
+    <a class="button secondary" href="#map-section">Open the map</a>
+  </div>
+</section>
 
-  <header>
-    <nav class="nav">
-      <a href="#" class="brand">
-        SOSO
-        <span>COLORADO</span>
-      </a>
+<section class="explore" id="explore">
+  <div class="container">
+    <p class="eyebrow">Explore Colorado</p>
+    <h2>Find somewhere to go.</h2>
+    <p>Outdoor adventures, neighborhood places, public spaces and ways to get involved.</p>
 
-      <div class="nav-links">
-        <a href="#explore">Explore</a>
-        <a href="#map-section">Map</a>
-        <a href="#field-notes">Field Notes</a>
-        <a href="#community">Community</a>
-        <a href="#about">About</a>
-      </div>
-    </nav>
-  </header>
+    <div class="filters">
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="Hiking">Hiking</button>
+      <button class="filter" data-filter="Park">Parks</button>
+      <button class="filter" data-filter="Coffee">Coffee</button>
+      <button class="filter" data-filter="Brewery">Breweries</button>
+      <button class="filter" data-filter="Community">Community</button>
+    </div>
 
-
-  <!-- =========================
-       HERO
-       ========================= -->
-
-  <section class="hero">
-    <div class="container hero-grid">
-
-      <div class="hero-copy">
-        <p class="eyebrow">A field guide to Colorado</p>
-
-        <h1>Know where<br>you live.</h1>
-
-        <p>
-          A growing collection of trails, parks, public lands,
-          local adventures and ways to connect with the places
-          and communities that make Colorado home.
-        </p>
-
-        <div class="hero-actions">
-          <a class="button" href="#explore">Explore places</a>
-          <a class="button secondary" href="#map-section">Open the map</a>
+    <div class="cards">
+      {% assign sorted_places = site.places | sort: "title" %}
+      {% for place in sorted_places %}
+      <article class="card" data-type="{{ place.type }}">
+        <div class="card-image">
+          {% if place.photo %}
+            <img src="{{ place.photo | relative_url }}" alt="{{ place.title }}">
+          {% else %}
+            <div class="placeholder">Add a photo in the SOSO editor</div>
+          {% endif %}
         </div>
-      </div>
-
-      <div class="hero-note">
-        <p>
-          Go somewhere new. Notice what grows there.
-          Learn its story. Meet the people who care for it.
-        </p>
-
-        <small>SOSO FIELD NOTES · COLORADO</small>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- =========================
-       EXPLORE
-       ========================= -->
-
-  <section class="explore" id="explore">
-    <div class="container">
-
-      <div class="section-heading">
-        <p class="eyebrow">Explore Colorado</p>
-        <h2>Find somewhere to go.</h2>
-
-        <p>
-          Browse adventures, public lands, gathering places and
-          other corners of Colorado worth getting to know.
-        </p>
-      </div>
-
-      <div class="filters">
-        <button class="filter active" data-filter="all">All</button>
-        <button class="filter" data-filter="hiking">Hiking</button>
-        <button class="filter" data-filter="camping">Camping</button>
-        <button class="filter" data-filter="skiing">Skiing</button>
-        <button class="filter" data-filter="parks">Parks</button>
-        <button class="filter" data-filter="hot-springs">Hot Springs</button>
-        <button class="filter" data-filter="community">Community</button>
-      </div>
-
-      <div class="cards">
-
-        <article class="card" data-category="hiking parks">
-          <div class="card-image">
-            <div class="photo-placeholder">
-              Add your Herman Gulch photo here
-            </div>
+        <div class="card-content">
+          <div class="tags">{{ place.type }}{% if place.tags %} · {{ place.tags }}{% endif %}</div>
+          <h3><a href="{{ place.url | relative_url }}">{{ place.title }}</a></h3>
+          <p>{{ place.short_description }}</p>
+          <div class="meta">
+            {% if place.neighborhood %}{{ place.neighborhood }}{% endif %}
+            {% if place.distance %} · {{ place.distance }}{% endif %}
           </div>
-
-          <div class="card-content">
-            <div class="tags">
-              <span class="tag">Hiking</span>
-              <span class="tag">Wildflowers</span>
-              <span class="tag">Alpine</span>
-            </div>
-
-            <h3>Herman Gulch</h3>
-
-            <p>
-              A high-country trail west of Denver climbing through
-              forest and open alpine terrain toward Herman Lake.
-            </p>
-
-            <a href="#field-notes">Read the field note →</a>
-
-            <div class="stats">
-              <span>~6.5 miles</span>
-              <span>~1,700 ft gain</span>
-              <span>Clear Creek County</span>
-            </div>
-          </div>
-        </article>
-
-
-        <article class="card" data-category="parks">
-          <div class="card-image">
-            <div class="photo-placeholder">
-              Future Colorado place
-            </div>
-          </div>
-
-          <div class="card-content">
-            <div class="tags">
-              <span class="tag">Open Space</span>
-              <span class="tag">Easy</span>
-            </div>
-
-            <h3>Your next discovery</h3>
-
-            <p>
-              This can become another trail, neighborhood park,
-              open space, scenic drive or place you stumble across.
-            </p>
-
-            <div class="stats">
-              <span>Coming soon</span>
-            </div>
-          </div>
-        </article>
-
-
-        <article class="card" data-category="community">
-          <div class="card-image">
-            <div class="photo-placeholder">
-              Community feature
-            </div>
-          </div>
-
-          <div class="card-content">
-            <div class="tags">
-              <span class="tag">Community</span>
-              <span class="tag">Denver</span>
-            </div>
-
-            <h3>Things to do together</h3>
-
-            <p>
-              Eventually SOSO can feature trivia nights,
-              volunteer opportunities, intramural leagues,
-              karaoke and other ways to meet people locally.
-            </p>
-
-            <div class="stats">
-              <span>Coming soon</span>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- =========================
-       MAP
-       ========================= -->
-
-  <section class="map-section" id="map-section">
-    <div class="container map-intro">
-
-      <div class="map-copy">
-        <p class="eyebrow">The map</p>
-
-        <h2>See what's around you.</h2>
-
-        <p>
-          Each SOSO entry can live on the map. Eventually,
-          you'll be able to browse nearby adventures and filter
-          places by activity, season, distance and more.
-        </p>
-      </div>
-
-      <div id="map"></div>
-
-    </div>
-  </section>
-
-
-  <!-- =========================
-       FIELD NOTE
-       ========================= -->
-
-  <section id="field-notes">
-    <div class="container field-note-grid">
-
-      <div>
-        <p class="eyebrow">Field Note No. 001</p>
-
-        <h2>Herman Gulch</h2>
-
-        <p>
-          Clear Creek County, Colorado
-        </p>
-
-        <div class="field-note-details">
-
-          <div class="detail">
-            <span>Activity</span>
-            <span>Hiking</span>
-          </div>
-
-          <div class="detail">
-            <span>Distance</span>
-            <span>About 6.5 miles</span>
-          </div>
-
-          <div class="detail">
-            <span>Elevation gain</span>
-            <span>About 1,700 ft</span>
-          </div>
-
-          <div class="detail">
-            <span>Season</span>
-            <span>Summer – early fall</span>
-          </div>
-
-          <div class="detail">
-            <span>Setting</span>
-            <span>Forest + alpine</span>
-          </div>
-
         </div>
-      </div>
-
-
-      <div>
-        <h3>Why go</h3>
-
-        <p>
-          Herman Gulch is an accessible introduction to Colorado's
-          high country, beginning just off I-70 and climbing from
-          forest into increasingly open alpine terrain.
-        </p>
-
-        <p>
-          The trail eventually reaches Herman Lake beneath the
-          surrounding peaks. Wildflowers, changing vegetation and
-          expansive views make the journey as worthwhile as the
-          destination.
-        </p>
-
-        <div class="journal-note">
-          When I visited, we crossed paths with a mushroom-foraging
-          group on the trail. It turned into one of those unexpected
-          experiences that makes you start noticing an entirely
-          different layer of the landscape.
-        </div>
-
-        <br>
-
-        <p>
-          <strong>Before you go:</strong> Conditions in Colorado's
-          high country can change quickly. Check current weather,
-          trail and road conditions before heading out.
-        </p>
-
-      </div>
-
+      </article>
+      {% endfor %}
     </div>
-  </section>
+  </div>
+</section>
 
+<section class="map-section" id="map-section">
+  <div class="container">
+    <p class="eyebrow">Explore the map</p>
+    <h2>See what's around you.</h2>
+    <p>Click a pin to open its SOSO guide.</p>
+    <div id="map"></div>
+  </div>
+</section>
 
-  <!-- =========================
-       COMMUNITY
-       ========================= -->
-
-  <section class="community" id="community">
-    <div class="container community-grid">
-
-      <div>
-        <p class="eyebrow">Community</p>
-
-        <h2>Knowing a place means more than visiting it.</h2>
-
-        <p>
-          SOSO is also meant to become a collection of ways to
-          participate in Colorado — volunteering, local groups,
-          recreation leagues, events, gathering places and other
-          ways to make a home here.
-        </p>
-
-        <a
-          class="button"
-          style="background: var(--paper); color: var(--forest);"
-          href="mailto:YOUR-EMAIL-HERE?subject=SOSO%20Place%20Recommendation"
-        >
-          Recommend a place
-        </a>
-      </div>
-
-
-      <div class="community-cards">
-
-        <div class="community-card">
-          <h3>Volunteer</h3>
-          <p>
-            Trail work, restoration, stewardship and community
-            opportunities.
-          </p>
-        </div>
-
-        <div class="community-card">
-          <h3>Join something</h3>
-          <p>
-            Intramural sports, clubs, classes and ways to meet people.
-          </p>
-        </div>
-
-        <div class="community-card">
-          <h3>Gather</h3>
-          <p>
-            Trivia, karaoke, neighborhood events and places where
-            community happens.
-          </p>
-        </div>
-
-      </div>
-
+<section class="community" id="community">
+  <div class="container community-grid">
+    <div>
+      <p class="eyebrow">Community</p>
+      <h2>Explore the people side of place.</h2>
+      <p>SOSO is also a collection of ways to participate in Colorado: local organizations, leagues, volunteering, neighborhood events, coffee shops, breweries and other places where people actually meet each other.</p>
     </div>
-  </section>
-
-
-  <!-- =========================
-       ABOUT
-       ========================= -->
-
-  <section id="about">
-    <div class="container">
-
-      <p class="eyebrow">About SOSO</p>
-
-      <h2>A reason to look closer.</h2>
-
-      <div class="about-copy">
-        <p>
-          I made SOSO because I love exploring new places and getting
-          to know the place I live.
-        </p>
-
-        <p>
-          It's part personal field journal and part resource for anyone
-          looking for somewhere new to hike, wander, camp, ski, soak,
-          gather or get involved.
-        </p>
-
-        <p>
-          The goal isn't to check every place off a list. It's to make
-          it easier to discover what's around us — and build a stronger
-          relationship with the landscapes and communities we call home.
-        </p>
-      </div>
-
+    <div>
+      <h3>Recommend something</h3>
+      <p>Know a trail, park, volunteer group, trivia night, club or gathering place that belongs here? A public submission form can be the next feature we add.</p>
     </div>
-  </section>
+  </div>
+</section>
 
+<section id="about">
+  <div class="container">
+    <p class="eyebrow">About SOSO</p>
+    <h2>A reason to look closer.</h2>
+    <p style="max-width:780px;font-family:Georgia,serif;font-size:1.28rem">
+      SOSO is part personal field journal and part guide for getting to know Colorado. The goal isn't to check every place off a list. It's to discover what's around us and build a stronger relationship with the landscapes and communities we call home.
+    </p>
+  </div>
+</section>
 
-  <footer>
-    <div class="footer-inner">
-      <strong>SOSO · COLORADO</strong>
-      <span>A growing field guide to knowing where you live.</span>
-    </div>
-  </footer>
+<footer><div class="container"><strong>SOSO · COLORADO</strong><span>A growing field guide to knowing where you live.</span></div></footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map = L.map("map", {scrollWheelZoom:false}).setView([39.35,-105.45],7);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
 
-  <!-- =========================
-       MAP SCRIPT
-       ========================= -->
+const places = [
+{% for place in site.places %}
+  {% if place.latitude and place.longitude %}
+  {
+    title: {{ place.title | jsonify }},
+    type: {{ place.type | jsonify }},
+    lat: {{ place.latitude }},
+    lng: {{ place.longitude }},
+    url: {{ place.url | relative_url | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endif %}
+{% endfor %}
+];
 
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-  </script>
+places.forEach(p => {
+  L.marker([p.lat,p.lng]).addTo(map)
+    .bindPopup(`<strong>${p.title}</strong><br>${p.type}<br><a href="${p.url}">View guide →</a>`);
+});
 
-  <script>
-
-    /* -------------------------
-       MAP
-       ------------------------- */
-
-    const map = L.map("map", {
-      scrollWheelZoom: false
-    }).setView([39.0, -105.55], 7);
-
-    L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }
-    ).addTo(map);
-
-
-    /* HERMAN GULCH */
-
-    const hermanGulch = L.marker([
-      39.702,
-      -105.854
-    ]).addTo(map);
-
-    hermanGulch.bindPopup(`
-      <strong>Herman Gulch</strong><br>
-      Hiking · Alpine<br>
-      <a href="#field-notes">View field note →</a>
-    `);
-
-
-    /* -------------------------
-       EXPLORE FILTERS
-       ------------------------- */
-
-    const filterButtons =
-      document.querySelectorAll(".filter");
-
-    const cards =
-      document.querySelectorAll(".card");
-
-    filterButtons.forEach(button => {
-
-      button.addEventListener("click", () => {
-
-        filterButtons.forEach(btn =>
-          btn.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        const filter =
-          button.dataset.filter;
-
-        cards.forEach(card => {
-
-          const categories =
-            card.dataset.category || "";
-
-          if (
-            filter === "all" ||
-            categories.includes(filter)
-          ) {
-            card.style.display = "block";
-          } else {
-            card.style.display = "none";
-          }
-
-        });
-
-      });
-
+document.querySelectorAll(".filter").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const filter=btn.dataset.filter;
+    document.querySelectorAll(".card").forEach(card=>{
+      card.style.display=(filter==="all"||card.dataset.type===filter)?"block":"none";
     });
-
-  </script>
-
+  });
+});
+</script>
 </body>
 </html>

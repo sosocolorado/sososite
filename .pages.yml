@@ -1,0 +1,111 @@
+media:
+  - name: images
+    label: Place photos
+    input: images
+    output: /images
+    categories: [image]
+    rename: safe
+
+content:
+  - name: places
+    label: Places & Adventures
+    type: collection
+    path: _places
+    format: yaml-frontmatter
+    filename: "{title}.md"
+    view:
+      fields: [title, type, neighborhood, featured]
+      primary: title
+      sort: [title, type, neighborhood]
+      search: [title, type, neighborhood, tags]
+    fields:
+      - name: title
+        label: Name
+        type: string
+        required: true
+
+      - name: type
+        label: Type
+        type: select
+        required: true
+        options:
+          values:
+            - Hiking
+            - Camping
+            - Park
+            - Open Space
+            - Skiing
+            - Hot Spring
+            - Coffee
+            - Brewery
+            - Community
+            - Activity
+            - Other
+
+      - name: tags
+        label: Tags
+        type: string
+        description: Separate tags with commas, e.g. "Wildflowers, Alpine, Summer"
+
+      - name: neighborhood
+        label: Area / Neighborhood
+        type: string
+
+      - name: address
+        label: Address or location
+        type: string
+
+      - name: latitude
+        label: Latitude
+        type: number
+
+      - name: longitude
+        label: Longitude
+        type: number
+
+      - name: short_description
+        label: Short description
+        type: text
+        required: true
+
+      - name: best_for
+        label: Best for
+        type: string
+        description: Example: "Sunsets, picnics, meeting friends"
+
+      - name: distance
+        label: Distance
+        type: string
+        description: Useful for hikes, bike rides, etc.
+
+      - name: elevation_gain
+        label: Elevation gain
+        type: string
+
+      - name: season
+        label: Best season
+        type: string
+
+      - name: photo
+        label: Cover photo
+        type: image
+        options:
+          media: images
+          rename: safe
+
+      - name: official_url
+        label: Official / useful link
+        type: string
+
+      - name: featured
+        label: Feature on homepage
+        type: boolean
+
+      - name: body
+        label: Field notes / full write-up
+        type: rich-text
+        options:
+          format: markdown
+          media: images
+          rename: safe
+          switcher: false

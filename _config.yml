@@ -1,0 +1,16 @@
+title: SOSO
+description: A field guide to Colorado
+url: "https://sosocolorado.github.io"
+baseurl: "/sososite"
+
+collections:
+  places:
+    output: true
+    permalink: /places/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: places
+    values:
+      layout: place
