@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page.title }} | SOSO Colorado</title>
+  <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a class="brand" href="{{ '/' | relative_url }}">SOSO<span>COLORADO</span></a>
+    <div class="nav-links"><a href="{{ '/#explore' | relative_url }}">Explore</a><a href="{{ '/#map-section' | relative_url }}">Map</a><a href="{{ '/#community' | relative_url }}">Community</a></div>
+  </nav>
+</header>
+<section>
+  <article class="place-page">
+    <p class="eyebrow">{{ page.type }}{% if page.neighborhood %} · {{ page.neighborhood }}{% endif %}</p>
+    <h1 style="font-size:clamp(3rem,7vw,5.7rem)">{{ page.title }}</h1>
+    <p style="font-size:1.15rem">{{ page.short_description }}</p>
+
+    {% if page.photo %}<img class="place-photo" src="{{ page.photo | relative_url }}" alt="{{ page.title }}">{% endif %}
+
+    <div class="place-meta">
+      {% if page.best_for %}<div><strong>Best for</strong><br>{{ page.best_for }}</div>{% endif %}
+      {% if page.season %}<div><strong>Best season</strong><br>{{ page.season }}</div>{% endif %}
+      {% if page.distance %}<div><strong>Distance</strong><br>{{ page.distance }}</div>{% endif %}
+      {% if page.elevation_gain %}<div><strong>Elevation gain</strong><br>{{ page.elevation_gain }}</div>{% endif %}
+      {% if page.address %}<div><strong>Location</strong><br>{{ page.address }}</div>{% endif %}
+    </div>
+
+    {{ content }}
+
+    {% if page.official_url %}
+      <p style="margin-top:35px"><a class="button secondary" href="{{ page.official_url }}" target="_blank" rel="noopener">Official / useful link ↗</a></p>
+    {% endif %}
+  </article>
+</section>
+<footer><div class="container"><strong>SOSO · COLORADO</strong><span><a href="{{ '/' | relative_url }}">Back to all places</a></span></div></footer>
+</body>
+</html>
